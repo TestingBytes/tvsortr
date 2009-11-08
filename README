@@ -2,8 +2,7 @@ tvsortr.rb Version 0.1
 Author: Sam Johnson (samuel.johnson@gmail.com)
 Date: November 5, 2009
 
-Description: This script takes a folder of downloaded TV shows and copies them
-  into XBMC friendly directory tree
+Description: This script takes a folder of downloaded TV shows and copies them into an XBMC friendly directory tree
   
 Example: ruby tvsortr.rb --downloads=Downloads --destination=TV
   ../Downloads/American.Dad.S05E03.avi is copied to ../TV/American Dad/American.Dad.S05E03.avi
