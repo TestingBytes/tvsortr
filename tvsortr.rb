@@ -25,6 +25,7 @@
 #   - add 'move' flag
 #   - Detect platform, and disable growl on windows
 #   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows
+#   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
 
   # Requires #
 require 'ftools'
@@ -35,11 +36,22 @@ require 'ruby-growl'
   # Constants #
 TVSORTR_VERSION = "0.1"
 
-  # Globals #
-log_file = File.open(File.expand_path('~/Library/Logs/tvsortr.log'), File::CREAT | File::WRONLY | File::APPEND)
-$logger = Logger.new(log_file)
-
   # Classes #
+
+class SimpleLog < Logger
+  attr_reader :echo_to_stdout
+  
+  def initialize(log_file,echo_to_stdout)
+   super(log_file)
+    @echo_to_stdout = echo_to_stdout
+  end
+  
+  def info(msg)
+    puts msg if echo_to_stdout
+    super
+  end
+end  
+
 class TVShow
   attr_reader :fileName, :name, :type, :episode, :season
   
@@ -89,7 +101,12 @@ class TVShow
   end
 end
 
+  # Globals #
+log_file = File.open(File.expand_path('~/Library/Logs/tvsortr.log'), File::CREAT | File::WRONLY | File::APPEND)
+$logger = SimpleLog.new(log_file,true)
+
   # Functions #
+
 def print_usage
   puts "#{__FILE__} --downloads=<path> --destination=<path>"
   exit(-1)
@@ -131,7 +148,7 @@ end
 
 $logger.info "-----------------------------------------------------------------------"
 $logger.info "Starting #{__FILE__}"
-$logger.info "#{__FILE__} version #{TVSORTR_VERSION = "0.1"}"
+$logger.info "#{__FILE__} version #{TVSORTR_VERSION}"
 $logger.info "The script running is: #{__FILE__} #{ARGV.join(" ")}"
 $logger.info "logger.info File is located: #{log_file.to_s}"
 $logger.info "-----------------------------------------------------------------------"
