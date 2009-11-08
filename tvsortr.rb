@@ -26,80 +26,18 @@
 #   - Detect platform, and disable growl on windows
 #   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows
 #   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
+#   - Modify class TVShow to inherit from File. This would simplify copying and scrubbing the name
 
   # Requires #
 require 'ftools'
-require 'logger'
 require 'rubygems'
 require 'ruby-growl'
 
+require 'tvsortr/lib/tvshow'
+require 'tvsortr/lib/simplelog'
+
   # Constants #
 TVSORTR_VERSION = "0.1"
-
-  # Classes #
-
-class SimpleLog < Logger
-  attr_reader :echo_to_stdout
-  
-  def initialize(log_file,echo_to_stdout)
-   super(log_file)
-    @echo_to_stdout = echo_to_stdout
-  end
-  
-  def info(msg)
-    puts msg if echo_to_stdout
-    super
-  end
-end  
-
-class TVShow
-  attr_reader :fileName, :name, :type, :episode, :season
-  
-  def initialize(fileName)
-    @fileName = fileName 
-    
-    if @fileName =~ /(.+)(\d{4}).(\d{2}.\d{2})/
-      @type = "Daily"
-      @name,@season,@episode = $1,$2,$3
-      
-      @name     = @name.gsub("."," ").strip
-      @season   = @season.gsub(/^0+/,"")
-            
-    elsif @fileName =~ /(.+)S(\d{2})E(\d{2})/
-      @type = "Episodic"
-      @name,@season,@episode = $1,$2,$3
-
-      @name     = @name.gsub("."," ").strip
-      @season   = @season.gsub(/^0+/,"")
-      @episode  = @episode.gsub(/^0+/,"")
-      
-    else
-      @type = "Unknown"
-      @name = " "
-    end
-    
-  end
-  
-  def to_s
-    [@type,@name,"Season #{@season}","Episode: #{@episode}",@fileName].join(" / ")
-  end
-  
-  def fileName
-    @fileName
-  end
-  def name
-    @name
-  end
-  def type
-    @type
-  end
-  def episode
-    @episode
-  end
-  def season
-    @season
-  end
-end
 
   # Globals #
 log_file = File.open(File.expand_path('~/Library/Logs/tvsortr.log'), File::CREAT | File::WRONLY | File::APPEND)
@@ -114,7 +52,8 @@ end
 
 def copy_show(tvshow,destination)
   Dir.mkdir(destination) unless File.directory?(destination)
-  $logger.info "\tCopying #{tvshow.fileName} -> #{destination}"
+  $logger.info "\tCopying #{tvshow.fileName} -> #{destination}/#{tvshow.fileName}"
+  
   File.copy("#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination,false)  
   if $USE_GROWL
     $g.notify "ruby-growl Notification", 
@@ -133,6 +72,11 @@ end
   # Optional:
   # --growl
 
+# Don't run with Unit Tests
+if $0 != __FILE__
+  exit(0)
+end
+
 print_usage unless ARGV.select {|a| a =~ /--downloads/ || a =~ /--destination/}.length == 2
 
 ARGV.each do |a|
@@ -142,6 +86,8 @@ ARGV.each do |a|
     TV_ROOT_DIR="#$1"
   elsif a =~ /--growl/
     $USE_GROWL=true
+  elsif a =~ /--rename/
+    $RENAME=true
   elsif print_usage
   end
 end  
@@ -169,4 +115,4 @@ $logger.info "Summary: Copied #{show_count} shows"
 $logger.info "Exiting..."
 $logger.info "-----------------------------------------------------------------------"
 
-exit
+exit(0)
