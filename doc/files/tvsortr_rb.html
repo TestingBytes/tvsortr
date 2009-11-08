@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: tvsortr.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>tvsortr.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>tvsortr.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sat Nov 07 22:41:57 -0700 2009</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+tvsortr.rb Version 0.1 Author: Sam Johnson (samuel.johnson@gmail.com) Date:
+November 5, 2009
+</p>
+<p>
+Description: This script takes a folder of downloaded TV shows and copies
+them
+</p>
+<pre>
+  into XBMC friendly directory tree
+</pre>
+<p>
+Example: ruby tvsortr.rb &#8212;downloads=Downloads &#8212;destination=TV
+</p>
+<pre>
+  ../Downloads/American.Dad.S05E03.avi is copied to ../TV/American Dad/American.Dad.S05E03.avi
+</pre>
+<p>
+Flags:
+</p>
+<pre>
+  --downloads=s       The path to your downloaded TV shows
+  --destination=s     The path to your XBMC TV media Path
+  --growl             Creates growl notifcation popups for each file detected/copied
+</pre>
+<p>
+Notes:
+</p>
+<pre>
+  - Logs are saved to &quot;~/Library/Logs/tvsortr.log&quot;
+  - Currently detects only 2 naming conventions:
+      Episodic Shows: {Period.delimited.show.name}.S{number}E{number}.*
+      Daily Shows:    {Period.delimited.show.name}.{YYYY}.{MM}.{DD}.*
+</pre>
+<p>
+TODO:
+</p>
+<pre>
+  - add 'move' flag
+  - Detect platform, and disable growl on windows
+  - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows
+  - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
+  - Modify class TVShow to inherit from File. This would simplify copying and scrubbing the name
+</pre>
+
+    </div>
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      ftools&nbsp;&nbsp;
+      rubygems&nbsp;&nbsp;
+      ruby-growl&nbsp;&nbsp;
+      <a href="lib/tvshow_rb.html">lib/tvshow</a>&nbsp;&nbsp;
+      <a href="lib/simplelog_rb.html">lib/simplelog</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000002">copy_show</a>&nbsp;&nbsp;
+      <a href="#M000001">print_usage</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TVSORTR_VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;0.1&quot;</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Constants #
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TV_DOWNLOADS_DIR</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;#$1&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TV_ROOT_DIR</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;#$1&quot;</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="tvsortr_rb.src/M000002.html" target="Code" class="method-signature"
+            onclick="popupCode('tvsortr_rb.src/M000002.html');return false;">
+          <span class="method-name">copy_show</span><span class="method-args">(tvshow,destination)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="tvsortr_rb.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('tvsortr_rb.src/M000001.html');return false;">
+          <span class="method-name">print_usage</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Functions #
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
