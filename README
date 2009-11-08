@@ -19,8 +19,8 @@ Notes:
       Daily Shows:    {Period.delimited.show.name}.{YYYY}.{MM}.{DD}.*
 
 TODO:
-  - add 'move' flag
+  - Add 'move' flag
   - Detect platform, and disable growl on windows
-  - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows
+  - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows (and look into other XBMC recognized formats)
   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
   - Add optional twitter support (for SMS notification!)
