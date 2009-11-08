@@ -9,7 +9,17 @@ class SimpleLog < Logger
   end
   
   def info(msg)
-    puts msg if echo_to_stdout
+    puts "INFO:\t#{msg}" if echo_to_stdout
+    super
+  end
+  
+  def warning(msg)
+    puts "WARNING:\t#{msg}" if echo_to_stdout
+    super
+  end
+  
+  def error(msg)
+    puts "ERROR:\t#{msg}" if echo_to_stdout
     super
   end
 end  

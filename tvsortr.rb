@@ -1,40 +1,12 @@
 #!/usr/bin/env ruby
 
-# tvsortr.rb Version 0.1
-# Author: Sam Johnson (samuel.johnson@gmail.com)
-# Date: November 5, 2009
-# 
-# Description: This script takes a folder of downloaded TV shows and copies them
-#   into XBMC friendly directory tree
-#   
-# Example: ruby tvsortr.rb --downloads=Downloads --destination=TV
-#   ../Downloads/American.Dad.S05E03.avi is copied to ../TV/American Dad/American.Dad.S05E03.avi
-#   
-# Flags:
-#   --downloads=s       The path to your downloaded TV shows
-#   --destination=s     The path to your XBMC TV media Path
-#   --growl             Creates growl notifcation popups for each file detected/copied
-#   
-# Notes:
-#   - Logs are saved to "~/Library/Logs/tvsortr.log"
-#   - Currently detects only 2 naming conventions:
-#       Episodic Shows: {Period.delimited.show.name}.S{number}E{number}.*
-#       Daily Shows:    {Period.delimited.show.name}.{YYYY}.{MM}.{DD}.*
-# 
-# TODO:
-#   - add 'move' flag
-#   - Detect platform, and disable growl on windows
-#   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows
-#   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
-#   - Modify class TVShow to inherit from File. This would simplify copying and scrubbing the name
-
   # Requires #
 require 'ftools'
 require 'rubygems'
 require 'ruby-growl'
 
-require 'tvsortr/lib/tvshow'
-require 'tvsortr/lib/simplelog'
+require 'lib/tvshow'
+require 'lib/simplelog'
 
   # Constants #
 TVSORTR_VERSION = "0.1"
@@ -72,18 +44,21 @@ end
   # Optional:
   # --growl
 
-# Don't run with Unit Tests
-if $0 != __FILE__
-  exit(0)
-end
-
 print_usage unless ARGV.select {|a| a =~ /--downloads/ || a =~ /--destination/}.length == 2
 
 ARGV.each do |a|
   if a =~ /--downloads=(.+)/
-    TV_DOWNLOADS_DIR="#$1"
+    TV_DOWNLOADS_DIR="#$1" 
+    unless File.exists? TV_DOWNLOADS_DIR
+      $logger.warning "Download Directory \'#{TV_DOWNLOADS_DIR}\' not found"
+      exit -1
+    end
   elsif a =~ /--destination=(.+)/
     TV_ROOT_DIR="#$1"
+    unless File.exists? TV_ROOT_DIR
+      $logger.error "TV Directory \'#{TV_ROOT_DIR}\' not found"
+      exit -1
+    end
   elsif a =~ /--growl/
     $USE_GROWL=true
   elsif a =~ /--rename/

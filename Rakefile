@@ -1,3 +1,5 @@
+require 'fileutils'
+
 EXAMPLE_TV = "example/TV"
 EXAMPLE_DOWNLOADS = "example/Downloads"
 
@@ -17,23 +19,25 @@ end
 
 desc "This runs rdoc with appropriate excludes"
 task :doc do
-    `rdoc --exclude tests/`
+  puts `rdoc --exclude tests/`
 end
 
 desc "This executes a sample run with the files in tests/helpers"
 task :run do
- puts `ruby tvsortr.rb --downloads=example/Downloads --destination=example/TV`
+  puts `ruby tvsortr.rb --downloads=example/Downloads --destination=example/TV`
 end
 
 desc "cleans files from unit tests and dry run"
 task :clean do
-  #Recreate the Downloads directory
-  Dir.rmdir EXAMPLE_DOWNLOADS if File.exists? EXAMPLE_DOWNLOADS
-
-  EXAMPLE_FILES.each { |show| File.touch "#{EXAMPLE_DOWNLOADS/show}" }
+  #Recreate the Downloads directory  
+  `rm -rf example`
   
-  #Recreate the TV direcory
-  Dir.rmdir EXAMPLE_TV if File.exists? EXAMPLE_TV
+  Dir.mkdir "example"
+  Dir.mkdir EXAMPLE_DOWNLOADS
+  
+  EXAMPLE_FILES.each { |show| File.new("#{EXAMPLE_DOWNLOADS}/#{show}", File::CREAT) }
+  
+  `rm -rf #{EXAMPLE_TV}`  
   Dir.mkdir EXAMPLE_TV
 end 
 
