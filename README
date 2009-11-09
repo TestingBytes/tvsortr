@@ -24,3 +24,4 @@ TODO:
   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows (and look into other XBMC recognized formats)
   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
   - Add optional twitter support (for SMS notification!)
+  - Once move is enabled, there could be a conflict with the torrent app - you can't move if the app is still seeding....
