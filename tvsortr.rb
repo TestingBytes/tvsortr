@@ -9,7 +9,7 @@ require './lib/tvshow'
 require './lib/simplelog'
 
   # Constants #
-TVSORTR_VERSION = "0.1"
+TVSORTR_VERSION = "0.2"
 
   # Globals #
 log_file = File.open(File.expand_path('~/Library/Logs/tvsortr.log'), File::CREAT | File::WRONLY | File::APPEND)
