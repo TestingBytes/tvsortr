@@ -5,8 +5,8 @@ require 'ftools'
 require 'rubygems'
 require 'ruby-growl'
 
-require 'lib/tvshow'
-require 'lib/simplelog'
+require './lib/tvshow'
+require './lib/simplelog'
 
   # Constants #
 TVSORTR_VERSION = "0.1"
@@ -23,10 +23,10 @@ def print_usage
 end
 
 def copy_show(tvshow,destination)
-  Dir.mkdir(destination) unless File.directory?(destination)
+  Dir.mkdir(destination) unless File.directory?(destination) unless $DRYRUN
   $logger.info "\tCopying #{tvshow.fileName} -> #{destination}/#{tvshow.fileName}"
   
-  File.copy("#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination,false)  
+  File.copy("#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination,false) unless $DRYRUN
   if $USE_GROWL
     $g.notify "ruby-growl Notification", 
               "TVMover: #{tvshow.name}", 
@@ -63,6 +63,8 @@ ARGV.each do |a|
     $USE_GROWL=true
   elsif a =~ /--rename/
     $RENAME=true
+  elsif a =~ /--dryrun/
+    $DRYRUN = true
   elsif print_usage
   end
 end  
