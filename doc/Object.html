@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: Object</title>
+
+  <link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+  <script src="./js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="./tvsortr_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="tvsortr.rb">tvsortr.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">BasicObject</p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-i-move_show">#move_show</a></li>
+          
+          <li><a href="#method-i-print_usage">#print_usage</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="./README.html">README</a></li>
+        
+          <li class="file"><a href="./Rakefile.html">Rakefile</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="./images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="./Object.html">Object</a></li>
+        
+          <li><a href="./SimpleLog.html">SimpleLog</a></li>
+        
+          <li><a href="./TVShow.html">TVShow</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">Object</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+      <!-- Constants -->
+      <div id="constants-list" class="section">
+        <h3 class="section-header">Constants</h3>
+        <dl>
+        
+          <dt><a name="TVSORTR_VERSION">TVSORTR_VERSION</a></dt>
+          
+          <dd class="description"><p>Constants #</p></dd>
+          
+        
+          <dt><a name="TV_DOWNLOADS_DIR">TV_DOWNLOADS_DIR</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+          <dt><a name="TV_ROOT_DIR">TV_ROOT_DIR</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+        </dl>
+      </div>
+      
+
+      
+
+      <!-- Methods -->
+      
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="move_show-method" class="method-detail ">
+          <a name="method-i-move_show"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">move_show</span><span
+              class="method-args">(tvshow,destination)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="move_show-source">
+<pre>
+<span class="ruby-comment"># File tvsortr.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">move_show</span>(<span class="ruby-identifier">tvshow</span>,<span class="ruby-identifier">destination</span>)
+  <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">destination</span>) <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">destination</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">$DRYRUN</span>
+
+  <span class="ruby-identifier">$targetPath</span> = <span class="ruby-node">&quot;#{destination}/#{tvshow.fileName}&quot;</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;//&quot;</span>,<span class="ruby-string">&quot;/&quot;</span>)
+  <span class="ruby-identifier">$logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;\tMoving #{tvshow.fileName} -&gt; #{$targetPath}&quot;</span>
+    
+  <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mv</span> <span class="ruby-node">&quot;#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}&quot;</span>,<span class="ruby-identifier">destination</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">$DRYRUN</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">$USE_GROWL</span>
+    <span class="ruby-identifier">$g</span>.<span class="ruby-identifier">notify</span> <span class="ruby-string">&quot;ruby-growl Notification&quot;</span>, 
+              <span class="ruby-node">&quot;TVMover: #{tvshow.name}&quot;</span>, 
+              <span class="ruby-node">&quot;Season: #{tvshow.season} Episode: #{tvshow.episode}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- move_show-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- move_show-method -->
+
+      
+        <div id="print_usage-method" class="method-detail ">
+          <a name="method-i-print_usage"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">print_usage</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Functions #</p>
+            
+
+            
+            <div class="method-source-code" id="print_usage-source">
+<pre>
+<span class="ruby-comment"># File tvsortr.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_usage</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{__FILE__} --downloads=&lt;path&gt; --destination=&lt;path&gt;&quot;</span>
+  <span class="ruby-identifier">exit</span>(<span class="ruby-value">-1</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- print_usage-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- print_usage-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+
