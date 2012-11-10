@@ -46,7 +46,11 @@ class TVShow
   end
   
   def to_s
-    [@type,@name,"Season #{@season}","Episode: #{@episode}",@fileName].join(" / ")
+    if @type == "Unknown"
+      "#{@type} : #{@fileName}"
+    else
+      [@type,@name,"Season #{@season}","Episode: #{@episode}",@fileName].join(" / ")
+    end
   end
   
   def fileName

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
   # Requires #
-require 'ftools'
+require 'fileutils'
 require 'rubygems'
 require 'ruby-growl'
 
@@ -22,11 +22,13 @@ def print_usage
   exit(-1)
 end
 
-def copy_show(tvshow,destination)
+def move_show(tvshow,destination)
   Dir.mkdir(destination) unless File.directory?(destination) unless $DRYRUN
-  $logger.info "\tCopying #{tvshow.fileName} -> #{destination}/#{tvshow.fileName}"
-  
-  File.copy("#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination,false) unless $DRYRUN
+
+  $targetPath = "#{destination}/#{tvshow.fileName}".gsub("//","/")
+  $logger.info "\tMoving #{tvshow.fileName} -> #{$targetPath}"
+    
+  FileUtils.mv "#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination unless $DRYRUN
   if $USE_GROWL
     $g.notify "ruby-growl Notification", 
               "TVMover: #{tvshow.name}", 
@@ -43,6 +45,8 @@ end
   #  --destination
   # Optional:
   # --growl
+  # --dryrun
+  # --move   
 
 print_usage unless ARGV.select {|a| a =~ /--downloads/ || a =~ /--destination/}.length == 2
 
@@ -60,9 +64,9 @@ ARGV.each do |a|
       exit -1
     end
   elsif a =~ /--growl/
-    $USE_GROWL=true
+    $USE_GROWL = true
   elsif a =~ /--rename/
-    $RENAME=true
+    $RENAME = true
   elsif a =~ /--dryrun/
     $DRYRUN = true
   elsif print_usage
@@ -83,12 +87,12 @@ end
 
 $logger.info "Scanning TV Downloads..."
 show_count = Dir.open(TV_DOWNLOADS_DIR).select { |tvshow| 
-  tvshow != "." && tvshow != ".." && tvshow != ".DS_Store"}.
+  tvshow[0] != "."}.
   each { |tvshow| new_show = TVShow.new(tvshow)
                   $logger.info "Detected: #{new_show.to_s}"
-                  copy_show(new_show,"#{TV_ROOT_DIR}/#{new_show.name}")}.
+                  move_show(new_show,"#{TV_ROOT_DIR}/#{new_show.name}") unless new_show.type == "Unknown"}.
                   length      
-$logger.info "Summary: Copied #{show_count} shows" 
+$logger.info "Summary: Moved #{show_count} shows" 
 $logger.info "Exiting..."
 $logger.info "-----------------------------------------------------------------------"
 
