@@ -1,5 +1,14 @@
-require '../lib/tvshow'
+require 'lib/tvshow'
 require 'test/unit'
+
+class TVShowTest
+    attr_reader :tvShow, :fileName, :name, :type, :episode, :season
+
+    def initialize(fileName)
+        @fileName = fileName
+        @tvshow = TVShow.new(filename)
+    end
+end
 
 class TVShowTests < Test::Unit::TestCase
   TestTVShowFileName = "The.Simpsons.S12E14.pdtv.[HDTV].avi"
