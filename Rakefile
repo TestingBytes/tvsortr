@@ -1,7 +1,8 @@
 require 'fileutils'
 
-EXAMPLE_TV = "example/TV"
-EXAMPLE_DOWNLOADS = "example/Downloads"
+EXAMPLE_ROOT = "example"
+EXAMPLE_TV = "#{EXAMPLE_ROOT}/TV"
+EXAMPLE_DOWNLOADS = "#{EXAMPLE_ROOT}/Downloads"
 
 EXAMPLE_FILES = [
 "The.Sampsons.S01E03.The.One.About.Bacon.avi",  
@@ -14,7 +15,7 @@ EXAMPLE_FILES = [
 
 desc "This runs all unit tests"
 task :test do
-  
+    exec "ruby tests/test_tvshow.rb" 
 end
 
 desc "This runs rdoc with appropriate excludes"
@@ -30,9 +31,9 @@ end
 desc "cleans files from unit tests and dry run"
 task :clean do
   #Recreate the Downloads directory  
-  `rm -rf example`
+  `rm -rf #{EXAMPLE_ROOT}`
   
-  Dir.mkdir "example"
+  Dir.mkdir EXAMPLE_ROOT 
   Dir.mkdir EXAMPLE_DOWNLOADS
   
   EXAMPLE_FILES.each { |show| File.new("#{EXAMPLE_DOWNLOADS}/#{show}", File::CREAT) }
