@@ -1,8 +1,8 @@
-tvsortr.rb Version 0.1
+tvsortr.rb Version 0.2
 Author: Sam Johnson (samuel.johnson@gmail.com)
-Date: November 5, 2009
+Date: November 10, 2012
 
-Description: This script takes a folder of downloaded TV shows and copies them into an XBMC friendly directory tree
+Description: This script takes a folder of downloaded TV shows and moves them into an XBMC friendly directory tree
   
 Example: ruby tvsortr.rb --downloads=Downloads --destination=TV
   ../Downloads/American.Dad.S05E03.avi is copied to ../TV/American Dad/American.Dad.S05E03.avi
@@ -11,6 +11,7 @@ Flags:
   --downloads=s       The path to your downloaded TV shows
   --destination=s     The path to your XBMC TV media Path
   --growl             Creates growl notifcation popups for each file detected/copied
+  --dryrun            Doesn't actually move anything
   
 Notes:
   - Logs are saved to "~/Library/Logs/tvsortr.log"
@@ -19,9 +20,6 @@ Notes:
       Daily Shows:    {Period.delimited.show.name}.{YYYY}.{MM}.{DD}.*
 
 TODO:
-  - Add 'move' flag
-  - Detect platform, and disable growl on windows
+  - Remove pointless growl support
   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows (and look into other XBMC recognized formats)
   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
-  - Add optional twitter support (for SMS notification!)
-  - Once move is enabled, there could be a conflict with the torrent app - you can't move if the app is still seeding....
