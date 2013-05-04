@@ -10,7 +10,6 @@ Example: ruby tvsortr.rb --downloads=Downloads --destination=TV
 Flags:
   --downloads=s       The path to your downloaded TV shows
   --destination=s     The path to your XBMC TV media Path
-  --growl             Creates growl notifcation popups for each file detected/copied
   --dryrun            Doesn't actually move anything
   
 Notes:
@@ -20,6 +19,5 @@ Notes:
       Daily Shows:    {Period.delimited.show.name}.{YYYY}.{MM}.{DD}.*
 
 TODO:
-  - Remove pointless growl support
   - Add /S\d{2}xE\d{2}/ naming convention for Episodic shows (and look into other XBMC recognized formats)
   - Add rename option to transfer A.TV.Show.S03E21.blah.HDTV.[someCrew].avi to A.TV.Show.S03E21.avi
