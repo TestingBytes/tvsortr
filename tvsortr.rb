@@ -3,13 +3,12 @@
   # Requires #
 require 'fileutils'
 require 'rubygems'
-require 'ruby-growl'
 
 require './lib/tvshow'
 require './lib/simplelog'
 
   # Constants #
-TVSORTR_VERSION = "0.2"
+TVSORTR_VERSION = "0.3"
 
   # Globals #
 log_file = File.open(File.expand_path('~/Library/Logs/tvsortr.log'), File::CREAT | File::WRONLY | File::APPEND)
@@ -28,12 +27,7 @@ def move_show(tvshow,destination)
   $targetPath = "#{destination}/#{tvshow.fileName}".gsub("//","/")
   $logger.info "\tMoving #{tvshow.fileName} -> #{$targetPath}"
     
-  FileUtils.mv "#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",destination unless $DRYRUN
-  if $USE_GROWL
-    $g.notify "ruby-growl Notification", 
-              "TVMover: #{tvshow.name}", 
-              "Season: #{tvshow.season} Episode: #{tvshow.episode}"
-  end
+  FileUtils.mv "#{TV_DOWNLOADS_DIR}/#{tvshow.fileName}",$targetPath unless $DRYRUN
 end
 
   # Main #
@@ -44,7 +38,6 @@ end
   #  --downloads
   #  --destination
   # Optional:
-  # --growl
   # --dryrun
   # --move   
 
@@ -63,8 +56,6 @@ ARGV.each do |a|
       $logger.error "TV Directory \'#{TV_ROOT_DIR}\' not found"
       exit -1
     end
-  elsif a =~ /--growl/
-    $USE_GROWL = true
   elsif a =~ /--rename/
     $RENAME = true
   elsif a =~ /--dryrun/
@@ -80,19 +71,33 @@ $logger.info "The script running is: #{__FILE__} #{ARGV.join(" ")}"
 $logger.info "logger.info File is located: #{log_file.to_s}"
 $logger.info "-----------------------------------------------------------------------"
 
-# If --growl, init ruby-growl
-if $USE_GROWL 
-  $g = Growl.new "localhost","ruby-growl",["ruby-growl Notification"]
-end
-
 $logger.info "Scanning TV Downloads..."
-show_count = Dir.open(TV_DOWNLOADS_DIR).select { |tvshow| 
-  tvshow[0] != "."}.
-  each { |tvshow| new_show = TVShow.new(tvshow)
-                  $logger.info "Detected: #{new_show.to_s}"
-                  move_show(new_show,"#{TV_ROOT_DIR}/#{new_show.name}") unless new_show.type == "Unknown"}.
-                  length      
-$logger.info "Summary: Moved #{show_count} shows" 
+$movecount = 0
+
+Dir.open(TV_DOWNLOADS_DIR).each { |tvshow| 
+  $logger.info "Checking '#{tvshow}'"
+
+  if File.directory?(tvshow)
+    $logger.info "Skipping directory '#{tvshow}'"
+    next
+  elsif tvshow == "."
+    $logger.info "Skipping '#{tvshow}'"
+    next
+  elsif tvshow == ".."
+    $logger.info "Skipping '#{tvshow}'"
+    next
+  end
+  new_show = TVShow.new(tvshow)
+  $logger.info "Detected: '#{new_show.to_s}'"
+  if new_show.type != "Unknown"
+    $movecount++
+    move_show(new_show,"#{TV_ROOT_DIR}/#{new_show.name}") 
+  else
+    $logger.info "Not moving Unknown show: #{new_show.to_s}"
+  end
+}
+
+$logger.info "Summary: Moved #{$movecount} shows" 
 $logger.info "Exiting..."
 $logger.info "-----------------------------------------------------------------------"
 
